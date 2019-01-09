@@ -3,9 +3,9 @@ const yargs = require('yargs');
 
 const argv=yargs
 .options({
-    d:{
+    a:{
         demand:true,
-        alias:'direccion',
+        alias:'address',
         describe:'Direccion para buscar el clima',
         string:true
     }
@@ -16,13 +16,18 @@ const argv=yargs
 
 const encodeDireccion=encodeURIComponent(argv.a)
 
+
 // 1052 el tejar
 
 request({
-    url:'https://maps.googleapis.com/maps/api/geocode/json?address=El%20tejar%201052%20castro%20chile&key=AIzaSyDzuERadsgXwnOWCWsf3YNTHhEP5OTOnaM',
+    url:`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeDireccion}&key=AIzaSyDzuERadsgXwnOWCWsf3YNTHhEP5OTOnaM`,
     json:true
+
+    
 },(error,response,body)=>{
 
+    console.log(encodeDireccion)
+    
 
     //console.log(JSON.stringify(response,undefined,2));
     console.log(`Direccion : ${body.results[0].formatted_address}`);
