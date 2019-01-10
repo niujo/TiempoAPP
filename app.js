@@ -1,5 +1,5 @@
-const request = require('request')
 const yargs = require('yargs');
+const geocode=require('./geocode/geocode.js')
 
 const argv=yargs
 .options({
@@ -14,23 +14,12 @@ const argv=yargs
 .alias('help','h')
 .argv;
 
-const encodeDireccion=encodeURIComponent(argv.a)
+geocode.geocodeDireccion(argv.address,(errorMessage,results)=>{
+    if(errorMessage){
+        console.log(errorMessage);
+    }else{
+        console.log(JSON.stringify(results,undefined,2))
+    }
 
-
-// 1052 el tejar
-
-request({
-    url:`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeDireccion}&key=AIzaSyDzuERadsgXwnOWCWsf3YNTHhEP5OTOnaM`,
-    json:true
-
-    
-},(error,response,body)=>{
-
-    console.log(encodeDireccion)
-    
-
-    //console.log(JSON.stringify(response,undefined,2));
-    console.log(`Direccion : ${body.results[0].formatted_address}`);
-    console.log(`Latitud   : ${body.results[0].geometry.location.lat}`);
-    console.log(`Longitud  : ${body.results[0].geometry.location.lng}`)
 });
+
