@@ -1,25 +1,32 @@
 const yargs = require('yargs');
-const geocode=require('./geocode/geocode.js')
 
-const argv=yargs
-.options({
-    a:{
-        demand:true,
-        alias:'address',
-        describe:'Direccion para buscar el clima',
-        string:true
+const geocode = require('./geocode/geocode');
+const weather = require('./clima/clima');
+
+const argv = yargs
+  .options({
+    a: {
+      demand: true,
+      alias: 'address',
+      describe: 'Address to fetch weather for',
+      string: true
     }
-})
-.help()
-.alias('help','h')
-.argv;
+  })
+  .help()
+  .alias('help', 'h')
+  .argv;
 
-geocode.geocodeDireccion(argv.address,(errorMessage,results)=>{
-    if(errorMessage){
+geocode.geocodeDireccion(argv.address, (errorMessage, results) => {
+  if (errorMessage) {
+    console.log(errorMessage);
+  } else {
+    console.log(results.address);
+    weather.getClima(results.latitude, results.longitude, (errorMessage, weatherResults) => {
+      if (errorMessage) {
         console.log(errorMessage);
-    }else{
-        console.log(JSON.stringify(results,undefined,2))
-    }
-
+      } else {
+        console.log(`Hay actualmente ${weatherResults.temperature}. Sensacion termica : ${weatherResults.apparentTemperature}.`);
+      }
+    });
+  }
 });
-
