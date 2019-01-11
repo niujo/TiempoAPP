@@ -5,9 +5,9 @@ let getClima = (lat, lng, callback)=>{
         json:true
     },(error,response,body)=>{
         if (error) {
-            callback('Unable to connect to Forecast.io server.');
+            callback('No se puede conectar a los servidores de Forecast.io.');
           } else if (response.statusCode === 400) {
-            callback('Unable to fetch weather.');
+            callback('No se puede encontrar el clima.');
           } else if (response.statusCode === 200) {
             callback(undefined, {
               temperature: ((body.currently.temperature-32)/1.8).toFixed(1),
