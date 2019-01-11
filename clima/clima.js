@@ -10,7 +10,7 @@ let getClima = (lat, lng, callback)=>{
             callback('Unable to fetch weather.');
           } else if (response.statusCode === 200) {
             callback(undefined, {
-              temperature: Math.round((body.currently.temperature-32)/1.8).toFixed(1),
+              temperature: ((body.currently.temperature-32)/1.8).toFixed(1),
               apparentTemperature:((body.currently.apparentTemperature-32)/1.8).toFixed(1)
             });   
         }     
